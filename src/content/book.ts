@@ -269,7 +269,7 @@ export const pages: Page[] = [
     doodle: "books",
     caption: "livros, vinis, café, gatos",
     paragraphs: [
-      "Desejo muitos livros que te prendam do começo ao fim, shows que você ama, vinis novos na estante, cafés quentinhos e gatos no colo. Que a vida te surpreenda de um jeito bom, várias e várias vezes.",
+      "Desejo muitos livros que te prendam do começo ao fim, shows que você ama, vinis novos na estante, viagens que valham cada quilômetro, cafés quentinhos e gatos no colo. Que a vida te surpreenda de um jeito bom, várias e várias vezes.",
       "Você foi e continua sendo alguém muito especial pra mim. E não só você: o Renan, a sua mãe e, claro, o Vini também. Manda um abraço pra eles quando lembrar.",
     ],
     sticker: "feliz aniversário!",
