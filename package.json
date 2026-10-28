@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "deploy": "npm run build:pages && gh-pages -d out -t true -m \"Deploy\"",
+    "deploy": "npm run build:pages && gh-pages -d out -t -m \"Deploy\"",
     "build:pages": "node -e \"process.env.GITHUB_PAGES='true';require('child_process').execSync('next build',{stdio:'inherit',env:process.env})\""
   },
   "dependencies": {
