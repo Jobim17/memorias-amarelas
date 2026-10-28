@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Memórias Amarelas
 
-## Getting Started
+Um livrinho virável, feito em Next.js, pra ela folhear no dia 27 de novembro.
 
-First, run the development server:
+## Rodar
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre em http://localhost:3000. Pra abrir direto numa página, use `?p=N` (ex.: `?p=7`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## O que editar
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Tudo que é texto fica em um único arquivo: `src/content/book.ts`.
 
-## Learn More
+- `recipientName`: o nome dela. Vazio = "você".
+- `birthday`: a data que aparece na capa e na contracapa.
+- `nickname`: apelido usado na tela de countdown.
+- `age` e `launchDate`: idade que ela faz e a data/hora em que o countdown termina e o livro abre (antes disso, `?preview=1` abre o livro pra você conferir).
+- `playlistUrl`: cole o link da playlist do Spotify que você fez pra ela
+  (algo como `https://open.spotify.com/playlist/...`). Enquanto estiver vazio,
+  a página da playlist mostra um vinil desenhado. Com o link, o player do
+  Spotify aparece colado na página.
+- `pages`: as páginas, em ordem. Cada capítulo tem `title`, `paragraphs`,
+  um `doodle` (desenho da polaroid), `caption` e um `note` (anotação a lápis).
+  Se um capítulo ficar longo demais pra uma página, divide em duas entradas:
+  a segunda sem `chapter`/`title`.
+- `thingsThatRemindMe`: a lista do apêndice.
 
-To learn more about Next.js, take a look at the following resources:
+Os desenhos ficam em `src/components/scrap/Doodles.tsx` (SVG à mão).
+Fontes, cores e a tipografia do livro ficam em `src/app/globals.css`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Publicar
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+É um projeto Next.js comum: `npm run build` e sobe na Vercel (ou onde quiser).
 
-## Deploy on Vercel
+## Nome na capa
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`authorName` em `src/content/book.ts` é o nome que aparece grandão no topo da
+capa, estilo editora. Vazio, a capa mostra "um livro de quem carregou sua bolsa
+pra lá e pra cá".

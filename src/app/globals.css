@@ -1,26 +1,352 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #17302a;
+  --bg-2: #0f2320;
+  --paper: #f4ecdc;
+  --ink: #221b14;
+  --ink-soft: #5c4f42;
+  --green: #2f5d3a;
+  --yellow: #e9b92e;
+  --yellow-soft: #fff4c2;
+  --terracotta: #c8552c;
+  --pink: #e4708f;
+  --blue: #3f7fa6;
+  --cream: #fbf5e6;
+  --black: #141210;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-verde: var(--green);
+  --color-amarelo: var(--yellow);
+  --color-terracota: var(--terracotta);
+  --color-creme: var(--cream);
+  --color-preto: var(--black);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-ui: var(--font-ui);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--cream);
+  font-family: var(--font-body), Georgia, serif;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(233, 185, 46, 0.12), transparent 55%),
+    radial-gradient(ellipse at 50% 100%, rgba(0, 0, 0, 0.45), transparent 60%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  overflow-x: hidden;
+}
+
+/* ---------- papel das páginas ---------- */
+.paper {
+  background-color: var(--paper);
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.35), transparent 60%);
+  color: var(--ink);
+}
+
+/* sombra na lombada */
+.page-left::after,
+.page-right::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.page-left::after {
+  background: linear-gradient(to left, rgba(60, 40, 20, 0.22), transparent 14%);
+}
+.page-right::after {
+  background: linear-gradient(to right, rgba(60, 40, 20, 0.22), transparent 14%);
+}
+
+/* ---------- fita adesiva (polaroids) ---------- */
+.tape {
+  position: absolute;
+  height: 26px;
+  width: 92px;
+  background: rgba(250, 232, 160, 0.72);
+  background-image: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.25) 0 2px, transparent 2px 6px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  clip-path: polygon(0 10%, 3% 0, 6% 12%, 9% 0, 12% 10%, 100% 4%, 97% 100%, 94% 88%, 91% 100%, 88% 90%, 3% 96%, 0 90%);
+  pointer-events: none;
+}
+.tape-pink {
+  background: rgba(240, 150, 175, 0.7);
+}
+.tape-green {
+  background: rgba(150, 190, 140, 0.7);
+}
+.tape-blue {
+  background: rgba(140, 180, 210, 0.7);
+}
+
+/* ---------- react-pageflip ---------- */
+.stf__parent {
+  margin: 0 auto;
+}
+.stf__wrapper {
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.55));
+}
+.stf__item {
+  backface-visibility: hidden;
+}
+
+/* ---------- animações ---------- */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.floaty {
+  animation: floaty 3s ease-in-out infinite;
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+.wiggle {
+  animation: wiggle 2.4s ease-in-out infinite;
+  transform-origin: top center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .floaty, .wiggle, .patronus { animation: none; }
+}
+
+/* ==========================================================
+   Tipografia de livro — tudo proporcional à largura da página
+   (cqw = % da largura da folha), pra ficar igual no celular.
+   ========================================================== */
+.sheet {
+  container-type: inline-size;
+}
+.sheet-pad {
+  padding: 7cqw 7.5cqw 9cqw;
+}
+.running-head {
+  font-family: var(--font-body), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(10px, 2.8cqw, 13px);
+  letter-spacing: 0.06em;
+  color: rgba(34, 27, 20, 0.55);
+}
+.chapter-label {
+  font-family: var(--font-display), Impact, sans-serif;
+  letter-spacing: 0.22em;
+  font-size: clamp(11px, 3cqw, 14px);
+  color: var(--terracotta);
+}
+.body-text {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: clamp(14.5px, 4cqw, 18.5px);
+  line-height: 1.55;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  color: var(--ink);
+}
+.body-text p + p {
+  margin-top: 0.65em;
+  text-indent: 1.4em;
+}
+.dropcap {
+  float: left;
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: 3.4em;
+  line-height: 0.82;
+  margin: 0.06em 0.14em 0 0;
+  color: var(--terracotta);
+}
+.pencil {
+  font-family: var(--font-body), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(13px, 3.7cqw, 17px);
+  line-height: 1.2;
+  color: var(--ink-soft);
+}
+.folio {
+  position: absolute;
+  bottom: 3.2cqw;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--font-body), Georgia, serif;
+  font-size: clamp(10px, 2.8cqw, 13px);
+  color: rgba(34, 27, 20, 0.6);
+}
+.polaroid-w {
+  width: 28cqw;
+}
+.polaroid-caption {
+  font-family: var(--font-body), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(10px, 3cqw, 14px);
+  line-height: 1.1;
+}
+.board {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35), inset 0 0 18px rgba(0, 0, 0, 0.25);
+}
+.highlight {
+  background: linear-gradient(transparent 15%, rgba(255, 226, 90, 0.75) 15%, rgba(255, 226, 90, 0.75) 88%, transparent 88%);
+  padding: 0 0.1em;
+}
+
+/* patrono: gato verde brilhando */
+.patronus {
+  filter: drop-shadow(0 0 3px rgba(140, 230, 170, 1)) drop-shadow(0 0 10px rgba(90, 200, 130, 0.75));
+  opacity: 0.95;
+  animation: floaty 3.2s ease-in-out infinite;
+}
+.patronus svg * {
+  stroke: #6fd49a;
+}
+.patronus svg [fill="#3b2a1a"] {
+  fill: #6fd49a;
+}
+.patronus svg [fill="#e4708f"] {
+  fill: #a8f0c4;
+  stroke: #a8f0c4;
+}
+
+/* ==========================================================
+   Capa estilo editora (chapada, ilustração flat, tipografia pesada)
+   ========================================================== */
+.cover-flat {
+  background-color: var(--yellow);
+  color: var(--black);
+}
+.cover-flat::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.cover-author {
+  font-family: var(--font-display), Impact, sans-serif;
+  letter-spacing: 0.04em;
+  font-size: clamp(24px, 9cqw, 44px);
+  line-height: 0.95;
+}
+.cover-title-flat {
+  font-family: var(--font-display), Impact, sans-serif;
+  letter-spacing: 0.02em;
+  font-size: clamp(34px, 14cqw, 68px);
+  line-height: 0.88;
+}
+.cover-tag {
+  font-family: var(--font-body), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(11px, 3.3cqw, 15px);
+}
+.cover-badge {
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: clamp(7px, 2.2cqw, 11px);
+  line-height: 1.05;
+  letter-spacing: 0.06em;
+}
+.spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 6cqw;
+  background: var(--black);
+  color: var(--yellow);
+}
+.spine-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+  white-space: nowrap;
+  font-family: var(--font-display), Impact, sans-serif;
+  letter-spacing: 0.12em;
+  font-size: clamp(10px, 3.2cqw, 15px);
+}
+.blurb {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: clamp(11.5px, 3.4cqw, 15.5px);
+  line-height: 1.5;
+}
+
+/* abertura de capítulo */
+.chapter-num {
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: clamp(48px, 16cqw, 78px);
+  line-height: 0.85;
+  color: var(--black);
+}
+.chapter-title-sans {
+  font-family: var(--font-display), Impact, sans-serif;
+  letter-spacing: 0.1em;
+  font-size: clamp(16px, 5.2cqw, 25px);
+  line-height: 1.05;
+  color: var(--terracotta);
+}
+.rule {
+  height: 2px;
+  background: var(--black);
+  width: 12cqw;
+}
+
+/* ==========================================================
+   Controles e countdown
+   ========================================================== */
+.btn {
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  padding: 10px 20px;
+  transition: transform 0.12s ease, opacity 0.12s ease, background 0.12s ease;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  opacity: 0.35;
+}
+.btn-primary {
+  background: var(--yellow);
+  color: var(--black);
+}
+.btn-primary:hover:not(:disabled) {
+  background: #f3c845;
+}
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--cream);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.btn-ghost:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+}
+.ui-text {
+  font-family: var(--font-ui), system-ui, sans-serif;
+}
+.count-num {
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: clamp(44px, 12vw, 96px);
+  line-height: 0.9;
+  color: var(--yellow);
+  font-variant-numeric: tabular-nums;
+}
+.count-label {
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: clamp(10px, 2.6vw, 13px);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(251, 245, 230, 0.6);
 }
