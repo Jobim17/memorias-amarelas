@@ -1,0 +1,4 @@
+:HL["/memorias-amarelas/_next/static/chunks/2q4bkqk6yalxx.css","style"]
+2:[["children",{"s":"__PAGE__","h":160}]]
+1:[["children",{"s":"/_not-found","h":96,"c":"$Q2"}]]
+0:{"b":"ezo9d5uNS41dWd7J6FhV8","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
