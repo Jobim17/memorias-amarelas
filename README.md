@@ -34,7 +34,14 @@ Fontes, cores e a tipografia do livro ficam em `src/app/globals.css`.
 
 ## Publicar
 
-É um projeto Next.js comum: `npm run build` e sobe na Vercel (ou onde quiser).
+O site fica em https://jobim17.github.io/memorias-amarelas/ (GitHub Pages, branch `gh-pages`).
+Pra publicar uma nova versão depois de editar algo:
+
+```bash
+npm run deploy
+```
+
+Isso faz o build estático com o prefixo do Pages e envia a pasta `out` pra branch `gh-pages`.
 
 ## Nome na capa
 
